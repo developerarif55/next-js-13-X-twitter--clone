@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String     @id @default(uuid())
+  name       String?
+  username   String?    @unique
+  bio        String?
+  email      String?    @unique
+  image      String?
+  coverPic   String?
+  profilePic String?
+  password   String?
+  created_at DateTime?  @default(now())
+  updated_at DateTime?  @default(now())
+  following  String[]
+  posts      Post[]     @relation("PostToUser")
+  comments   Comment[]  @relation("CommentToUser")
+  likes      UserLike[] @relation("UserLikeToUser")
+}
+
+model UserLike {
+  id         String   @id @default(uuid())
+  created_at DateTime @default(now())
+  userId     String
+  postId     String
+  user       User     @relation("UserLikeToUser", fields: [userId], references: [id], onDelete: Cascade)
+  post       Post     @relation("UserLikeToPost", fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model Post {
+  id         String     @id @default(uuid())
+  body       String
+  created_at DateTime?  @default(now())
+  updated_at DateTime?  @default(now())
+  userId     String
+  user       User       @relation("PostToUser", fields: [userId], references: [id], onDelete: Cascade)
+  comments   Comment[]  @relation("CommentToPost")
+  likes      UserLike[] @relation("UserLikeToPost")
+}
+
+model Comment {
+  id         String    @id @default(uuid())
+  body       String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+  userId     String
+  postId     String
+  user       User      @relation("CommentToUser", fields: [userId], references: [id], onDelete: Cascade)
+  post       Post      @relation("CommentToPost", fields: [postId], references: [id], onDelete: Cascade)
+}
