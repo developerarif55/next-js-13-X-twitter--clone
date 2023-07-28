@@ -1,6 +1,13 @@
-function SidebarItem({label, Icon}) {
+import { useCallback } from "react";
+
+function SidebarItem({label, Icon, onClick}) {
+  const handleOnclick = useCallback(()=> {
+    if(onClick) {
+      return onClick()
+    }
+  }, [onClick])
   return (
-   <div className="flex flex-row items-center">
+   <div onClick={handleOnclick} className="flex flex-row items-center">
     <div className="h-15 w-15 rounded-full flex justify-center items-center p-4 hover:bg-slate-300 hover:bg-opacity-10 lg:hidden cursor-pointer">
         <Icon size={25} color="white" />
 
