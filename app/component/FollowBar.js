@@ -3,7 +3,6 @@ import Avater from "./Avater"
 
 async function Followbar() {
   const users = await getUsers()
-  console.log(users)
   return (
     <div className="px-6 py-4 hidden lg:block">
       <div className="bg-neutral-900 rounded-xl p-4">

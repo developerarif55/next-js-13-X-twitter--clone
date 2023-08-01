@@ -10,8 +10,9 @@ import { Toaster } from "react-hot-toast";
 
 async function page({ params: { userId } }) {
   const user = await getSingleUser(userId);
-  const currentUser = await current();
 
+  const currentUser = await current();
+  
   return (
     <div className="text-white">
       {/* header */}
@@ -27,7 +28,8 @@ async function page({ params: { userId } }) {
       />
       {/* userbio */}
       <UserBio
-      currentUser={currentUser?.id}
+       currentUserID={currentUser?.id}
+       currentUser={currentUser}
         key={user?.id}
         userId={user?.id}
         bio={user?.bio}
@@ -35,6 +37,7 @@ async function page({ params: { userId } }) {
         username={user?.username}
         createdAt={user?.created_at}
         following={user?.following}
+        followersCount={user?.followersCount}
       />
       <Edit user={user}/>
     </div>

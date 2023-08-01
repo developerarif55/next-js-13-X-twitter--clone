@@ -1,6 +1,9 @@
 "use client";
+import axios from "axios";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
+import { toast } from "react-hot-toast";
 import { BiCalendar } from "react-icons/bi";
 import useEdit from "../hooks/EditModal";
 import Button from "./Button";
@@ -13,6 +16,9 @@ function UserBio({
   createdAt,
   following,
   currentUser,
+  followersCount,
+
+  currentUserID
 }) {
   const createDate = useMemo(() => {
     if (!createdAt) {
@@ -20,7 +26,7 @@ function UserBio({
     }
     return format(new Date(createdAt), "MMMM yyyy");
   }, [createdAt]);
-  const isCurrentUser = currentUser === userId;
+  const isCurrentUser = currentUserID === userId;
   const useEditModal = useEdit();
 
   const handleClick = useCallback(() => {
@@ -28,13 +34,47 @@ function UserBio({
     useEditModal.onOpen();
   }, [useEditModal]);
 
+  // 1
+  // 2
+
+  const CheckUserFollowing = useMemo( () => {
+    console.log(currentUser.id);
+    const list = currentUser.following || [];
+    return list.includes(userId);
+  }, [userId, currentUser]);
+
+  const router = useRouter();
+
+  const handleFollow = useCallback (async () => {
+    try {
+      let request;
+      if (CheckUserFollowing) {
+        request = () => axios.delete(`/api/follow/${userId}`);
+      } else {
+        request = () =>
+          axios.post(`/api/follow`, {
+            userId,
+          });
+      }
+      await request();
+      router.refresh();
+      console.log("doneeee");
+      toast.success("success");
+    } catch (error) {}
+  }, [userId, CheckUserFollowing]);
+
   return (
     <div className="border-b-[1px] border-neutral-800 pb-5">
       <div className="flex justify-end p-2">
         {isCurrentUser ? (
           <Button secondary label="Edit" onClick={handleClick} />
         ) : (
-          <Button secondary label="Follow" />
+          <Button
+            onClick={handleFollow}
+            secondary={!CheckUserFollowing}
+            label={CheckUserFollowing ? "Unfollow" : "Follow"}
+            outline={CheckUserFollowing}
+          />
         )}
       </div>
       <div className="mt-8 px-4">
@@ -56,7 +96,7 @@ function UserBio({
             <p className="text-neutral-500">Following</p>
           </div>
           <div className="flex flex-row items-center gap-1">
-            <p className="text-white">{0}</p>
+            <p className="text-white">{followersCount}</p>
             <p className="text-neutral-500">Followers</p>
           </div>
         </div>

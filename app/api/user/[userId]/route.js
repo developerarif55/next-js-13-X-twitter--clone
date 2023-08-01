@@ -1,27 +1,37 @@
 import prisma from "@/app/libs/prismadb";
 import { NextResponse } from "next/server";
 
-export async function GET(request, {params}){
-    console.log(params);
+export async function GET(request, { params }) {
 
-    try {
-     
-      const user = await prisma.user.findUnique({
-        where: {
-          id: params.userId,
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: params.userId,
+      },
+    });
+    const followersCount = await prisma.user.count({
+      where: {
+        following: {
+          has: params.userId,
         },
-      });
-        return NextResponse.json(user)
-        
-    } catch (error) {
-        console.log(error)
-        
-    }
+      },
+    });
 
+    const userWithFollowers = {
+      ...user,
+      followersCount,
+    };
+
+    console.log(`userWithFollowers ${userWithFollowers}`);
+
+    return NextResponse.json(userWithFollowers);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-export async function PATCH(request, {params}) {
-  const body = await request.json()
+export async function PATCH(request, { params }) {
+  const body = await request.json();
 
   try {
     const updateUser = await prisma.user.update({
@@ -33,15 +43,12 @@ export async function PATCH(request, {params}) {
         username: body.username,
         bio: body.bio,
         profilePic: body.profilePic,
-        coverPic: body.coverPic
-      }
-    })
-    console.log("user updated")
-    return Response.json(updateUser, {status: 200})
-    
+        coverPic: body.coverPic,
+      },
+    });
+    console.log("user updated");
+    return Response.json(updateUser, { status: 200 });
   } catch (error) {
-    return new NextResponse(400).end()
-    
+    return new NextResponse(400).end();
   }
-
 }
