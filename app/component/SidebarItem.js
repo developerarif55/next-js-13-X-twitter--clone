@@ -1,11 +1,17 @@
+import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
-function SidebarItem({label, Icon, onClick}) {
+function SidebarItem({label, Icon, onClick, href}) {
+  const router = useRouter();
+
   const handleOnclick = useCallback(()=> {
     if(onClick) {
       return onClick()
     }
-  }, [onClick])
+    if (href) {
+      router.push(href);
+    }
+  }, [onClick, href]);
   return (
    <div onClick={handleOnclick} className="flex flex-row items-center">
     <div className="h-15 w-15 rounded-full flex justify-center items-center p-4 hover:bg-slate-300 hover:bg-opacity-10 lg:hidden cursor-pointer">
