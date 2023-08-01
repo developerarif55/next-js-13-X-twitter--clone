@@ -5,6 +5,7 @@ import Header from "./component/Header";
 import Login from "./component/modal/Login";
 import Register from "./component/modal/Register";
 import From from "./component/post/From";
+import PostFeed from "./component/post/PostFeed";
 
 export default async function Home() {
   const session = await getServerSession(handler)
@@ -18,6 +19,8 @@ export default async function Home() {
      }
      <Header label="Home" />
      <From placeholder="what's your mind...?" />
+     {/* postfeed */}
+     <PostFeed />
     
    
     </>

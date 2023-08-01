@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 import Avater from "../Avater";
@@ -7,6 +8,7 @@ import Button from "../Button";
 function From({ placeholder }) {
   const [body, setBody] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter()
 
   const onSubmit = useCallback(async () => {
     try {
@@ -23,6 +25,7 @@ function From({ placeholder }) {
       }
       setBody("");
       toast.success("Post has been created successfully");
+      router.refresh()
     } catch (error) {
       console.log("Error fetch request");
     }

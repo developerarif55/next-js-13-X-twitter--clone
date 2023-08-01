@@ -1,4 +1,4 @@
-"use client"
+"use client";
 function Button({
   label,
   secondary,
@@ -10,8 +10,8 @@ function Button({
 }) {
   return (
     <button
-    onClick={onClick}
-    disabled={disabled}
+      onClick={onClick}
+      disabled={disabled}
       className={`disabled:opacity-50 disabled:cursor-not-allowed rounded-full font-semibold hover:opacity-80 transition border-2 
     ${fullWidth ? "w-full" : "w-fit"}
     ${secondary ? "bg-white" : "bg-sky-500"}
