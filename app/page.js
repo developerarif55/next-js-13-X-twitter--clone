@@ -8,22 +8,19 @@ import From from "./component/post/From";
 import PostFeed from "./component/post/PostFeed";
 
 export default async function Home() {
-  const session = await getServerSession(handler)
+  const session = await getServerSession(handler);
   return (
     <>
-     <h1>Post FEED </h1>
-     <Toaster />
-     <Login />
-     {
-      session ? "":  <Register />
-     }
-     <Header label="Home" />
-     <From placeholder="what's your mind...?" />
-     {/* postfeed */}
-     <PostFeed />
-    
-   
+      <h1>Post FEED </h1>
+      <Toaster />
+      <Login />
+      {session ? "" : <Register />}
+      <Header label="Home" />
+      <div className="h-screen overflow-scroll scrollbar-none">
+        <From placeholder="what's your mind...?" />
+        {/* postfeed */}
+        <PostFeed />
+      </div>
     </>
- 
-  )
+  );
 }
