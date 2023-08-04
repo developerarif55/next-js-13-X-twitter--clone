@@ -19,7 +19,7 @@ async function page({ params: { userId } }) {
 
       <Header showBackArrow label={user?.name} />
 
-      <div className="h-screen overflow-scroll  scrollbar-none">
+      <div className="h-screen overflow-scroll-none">
         {/* userhero */}
         <UserHero
           userId={user?.id}
@@ -40,7 +40,7 @@ async function page({ params: { userId } }) {
           followersCount={user?.followersCount}
         />
         <Edit user={user} />
-        <PostFeed userId={userId} />
+        <PostFeed userId={userId} currentUser={currentUser}   />
       </div>
     </>
   );

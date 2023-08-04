@@ -28,9 +28,22 @@ export async function GET() {
       include: {
         user: true,
         comments: true,
+        likes: true,
       },
     });
-    return NextResponse.json(posts);
+    const postWithLikesCount = []
+    for (const post of posts) {
+      const likeCount = await prisma.userLike.count({
+        where: {
+          postId: post.id,
+        }
+      })
+      postWithLikesCount.push({
+        ...post,
+        likeCount
+      })
+    }
+    return NextResponse.json(postWithLikesCount);
   } catch (error) {
     console.error("Error getting posts");
     return new NextResponse("Internal error: ", { status: 500 });
