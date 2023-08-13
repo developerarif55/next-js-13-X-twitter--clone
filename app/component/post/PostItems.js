@@ -13,10 +13,16 @@ import {
 import Avater from "../Avater";
 
 function PostItems({ postData, currentUser }) {
-  console.log(`Post ${postData.likes.likeCount}`)
+
   const router = useRouter();
   const postId = postData.id
   const [isLiked, setIsLiked] = useState(false);
+
+
+  const goToPost = useCallback(() => {
+    router.push(`/post/${postData.id}`);
+  }, [router, postData.id]);
+
 
   useEffect(() => {
    
@@ -46,9 +52,9 @@ function PostItems({ postData, currentUser }) {
   );
   const LikeIcon = isLiked ? AiFillHeart : AiOutlineHeart;
   return (
-    <div className="border-b-[1px] border-neutral-900 p-5 cursor-pointer hover:bg-neutral-900 transition">
+    <div onClick={goToPost} className="border-b-[1px] border-neutral-900 p-5 cursor-pointer hover:bg-neutral-900 transition">
       <div className="flex flex-row gap-3">
-        <Avater userId={postData.userId} />
+        <Avater userId={postData.user.id} profilePic={postData.user.profilePic} />
         <div>
           <div className="flex items-center gap-2">
             <p className="text-white font-semibold cursor-pointer hover:outline-none">
@@ -78,7 +84,7 @@ function PostItems({ postData, currentUser }) {
             </div>
             <div className="flex items-center text-neutral-600 gap-2 cursor-pointer transition hover:text-sky-600">
               <AiOutlineMessage size={22} />
-              <p>{postData.comments?.lenght || 0}</p>
+              <p>{postData.comments?.length || 0}</p>
             </div>
             <div className="flex items-center text-neutral-600 gap-2 cursor-pointer transition hover:text-sky-600">
               <AiOutlineRetweet size={22} />

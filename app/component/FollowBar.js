@@ -11,7 +11,7 @@ async function Followbar() {
           {
             users.map((user) => (
               <div key={user.id} className="flex flex-row gap-4">
-                <Avater userId={user.id} />
+                <Avater userId={user.id} profilePic={user.profilePic}/>
                 <div className="flex flex-col">
                   <p className="text-white font-semibold text-sm">
                     {

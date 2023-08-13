@@ -5,7 +5,7 @@ import { handler } from "./api/auth/[...nextauth]/route";
 import Header from "./component/Header";
 import Login from "./component/modal/Login";
 import Register from "./component/modal/Register";
-import From from "./component/post/From";
+import Form from "./component/post/Form";
 import PostFeed from "./component/post/PostFeed";
 
 export default async function Home() {
@@ -18,7 +18,7 @@ export default async function Home() {
       {session ? "" : <Register />}
       <Header label="Home" />
       <div className="h-screen overflow-scroll scrollbar-none">
-        <From placeholder="what's your mind...?" />
+        <Form placeholder="what's your mind...?" />
         {/* postfeed */}
         <PostFeed currentUser={currentUser} />
       </div>

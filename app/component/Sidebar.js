@@ -1,7 +1,7 @@
 "use client";
 import { signOut, useSession } from "next-auth/react";
 import { BiLogOut } from "react-icons/bi";
-import { BsBellFill, BsHouseFill } from "react-icons/bs";
+import { BsBellFill, BsFillBookmarkFill, BsHouseFill } from "react-icons/bs";
 
 import { useRouter } from "next/navigation";
 import { FaUser } from "react-icons/fa";
@@ -18,10 +18,16 @@ const items = [
     label: "Notifications",
     href: "/notifications",
   },
+
   {
     icon: FaUser,
     label: "Profile",
     href: `/profile`,
+  },
+  {
+    icon: BsFillBookmarkFill,
+    label: "Bookmark",
+    href: `/bookmark`,
   },
 ];
 function Sidebar() {
