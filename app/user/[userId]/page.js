@@ -13,6 +13,7 @@ async function page({ params: { userId } }) {
 
   const currentUser = await current();
 
+
   return (
     <>
       <Toaster />
